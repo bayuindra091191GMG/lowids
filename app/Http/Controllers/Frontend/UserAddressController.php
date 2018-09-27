@@ -30,6 +30,9 @@ class UserAddressController extends Controller
         $id = Auth::user()->id;
         $addr = Address::where('user_id', $id)->first();
 
+        if(empty($addr)){
+            return redirect()->route('user-address-create')->with('redirect', 'checkout');
+        }
 
         $cities = City::where('province_id', $addr->province_id)->get();
         $collect = RajaOngkir::getSubdistrict($addr->city_id);
